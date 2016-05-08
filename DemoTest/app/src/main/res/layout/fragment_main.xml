@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/actionbar_green"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="APPS&amp;GAMES"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="ENTERTAINMENT"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</LinearLayout>
