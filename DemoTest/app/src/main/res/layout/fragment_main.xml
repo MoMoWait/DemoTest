@@ -10,6 +10,7 @@
         android:orientation="horizontal">
 
         <TextView
+            android:id="@+id/text_app_game"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:text="APPS&amp;GAMES"
@@ -18,9 +19,11 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:textStyle="bold"
+            android:drawableBottom="@mipmap/under_line"
             android:layout_weight="1"/>
 
         <TextView
+            android:id="@+id/text_enter_tain"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:text="ENTERTAINMENT"

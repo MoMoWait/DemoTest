@@ -1,6 +1,8 @@
 package momo.fjnu.edu.cn.demotest.fragment;
 
 
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
@@ -9,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
@@ -28,6 +31,14 @@ public class MainFragment extends BaseFragment{
 
     @ViewInject(R.id.pager_content)
     private ViewPager mPagerContent;
+
+    @ViewInject(R.id.text_app_game)
+    private TextView mTextAppGame;
+
+    @ViewInject(R.id.text_enter_tain)
+    private TextView mTextEnterTain;
+
+    private TextView[] mContentTabs;
 
     @Nullable
     @Override
@@ -52,7 +63,7 @@ public class MainFragment extends BaseFragment{
 
     @Override
     public void initData() {
-
+        mContentTabs = new TextView[]{mTextAppGame, mTextEnterTain};
     }
 
     @Override
@@ -63,9 +74,15 @@ public class MainFragment extends BaseFragment{
 
            }
 
+           @TargetApi(Build.VERSION_CODES.LOLLIPOP)
            @Override
            public void onPageSelected(int position) {
-
+               for(int i = 0; i != mContentTabs.length; ++i){
+                   if(i != position)
+                       mContentTabs[i].setCompoundDrawablesWithIntrinsicBounds (0, 0, 0, 0);
+                   else
+                       mContentTabs[i].setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, R.mipmap.under_line);
+               }
            }
 
            @Override
