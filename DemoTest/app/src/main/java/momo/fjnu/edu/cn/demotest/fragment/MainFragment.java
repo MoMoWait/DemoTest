@@ -2,6 +2,7 @@ package momo.fjnu.edu.cn.demotest.fragment;
 
 
 import android.annotation.TargetApi;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.xutils.view.annotation.ContentView;
@@ -18,6 +20,7 @@ import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
 import momo.cn.edu.fjnu.androidutils.base.BaseFragment;
+import momo.cn.edu.fjnu.androidutils.utils.ResourceUtils;
 import momo.fjnu.edu.cn.demotest.R;
 import momo.fjnu.edu.cn.demotest.adapter.TabAdapter;
 
@@ -38,8 +41,14 @@ public class MainFragment extends BaseFragment{
     @ViewInject(R.id.text_enter_tain)
     private TextView mTextEnterTain;
 
-    private TextView[] mContentTabs;
+    @ViewInject(R.id.layout_content)
+    private LinearLayout mLayoutContent;
 
+    private ActionBar mMainActionBar;
+    private TextView[] mContentTabs;
+    private int[] mStatusBarColors = {R.color.statusbar_green, R.color.statusbar_gray};
+    private int[] mActionBarColors = {R.color.actionbar_green, R.color.actionbar_gray};
+    private int[] mActivityThems = {R.style.AppTheme, R.style.AppGrayTheme};
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -49,16 +58,14 @@ public class MainFragment extends BaseFragment{
     @Override
     public void initView() {
         //获取ActionBar
-        ActionBar mainActionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
-        if(null != mainActionBar){
-            mainActionBar.setDisplayShowCustomEnabled(true);
+        mMainActionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
+        if(null != mMainActionBar){
+            mMainActionBar.setDisplayShowCustomEnabled(true);
             //设置自定义的ActionBar
-            mainActionBar.setCustomView(R.layout.actionbar_main);
-           // mainActionBar.addTab();
+            mMainActionBar.setCustomView(R.layout.actionbar_main);
         }
         //设置适配器
         mPagerContent.setAdapter(new TabAdapter(getFragmentManager()));
-
     }
 
     @Override
@@ -77,11 +84,18 @@ public class MainFragment extends BaseFragment{
            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
            @Override
            public void onPageSelected(int position) {
+               mLayoutContent.setBackground(getResources().getDrawable(mActionBarColors[position], getActivity().getTheme()));
+               //改变StatusBar的颜色
+               getActivity().getWindow().setStatusBarColor(ResourceUtils.getColor(mStatusBarColors[position]));
+               //改变ActionBar背景颜色
+               mMainActionBar.setBackgroundDrawable(new ColorDrawable(ResourceUtils.getColor(mActionBarColors[position])));
                for(int i = 0; i != mContentTabs.length; ++i){
-                   if(i != position)
+                   if(i != position){
                        mContentTabs[i].setCompoundDrawablesWithIntrinsicBounds (0, 0, 0, 0);
-                   else
+                   }else{
                        mContentTabs[i].setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, R.mipmap.under_line);
+                   }
+
                }
            }
 

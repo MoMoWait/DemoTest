@@ -1,10 +1,12 @@
 package momo.fjnu.edu.cn.demotest.pojo;
 
+import java.io.Serializable;
+
 /**
  * 应用游戏信息
  * Created by GaoFei on 2016/5/9.
  */
-public class AppGameInfo {
+public class AppGameInfo implements Serializable{
     /**标题*/
     private String title;
     /**子标题*/

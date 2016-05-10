@@ -34,7 +34,9 @@
         android:supportsRtl="true"
         android:name=".base.DemoTestApplication"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.MainActivity">
+        <activity
+            android:theme="@style/AppTheme"
+            android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -42,6 +44,9 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:theme="@style/OverLayAppTheme"
+            android:name=".activity.AppGameInfoActivity"/>
     </application>
 
 </manifest>

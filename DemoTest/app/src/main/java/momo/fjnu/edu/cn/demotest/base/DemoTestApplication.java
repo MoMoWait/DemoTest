@@ -10,7 +10,6 @@ import java.io.File;
 
 import momo.cn.edu.fjnu.androidutils.base.BaseApplication;
 import momo.fjnu.edu.cn.demotest.data.AppConst;
-import momo.fjnu.edu.cn.demotest.exception.AppCrashHandler;
 
 /**
  * APP实例
@@ -29,7 +28,7 @@ public class DemoTestApplication extends BaseApplication{
      */
     public void initApp() {
         //设置奔溃处理器
-        Thread.setDefaultUncaughtExceptionHandler(new AppCrashHandler());
+        //Thread.setDefaultUncaughtExceptionHandler(new AppCrashHandler());
         x.Ext.init(this);
         initAquery();
         initDB();

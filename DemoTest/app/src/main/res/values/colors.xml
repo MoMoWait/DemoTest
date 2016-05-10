@@ -3,5 +3,12 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="statusbar_green">#537E2C</color>
+    <color name="actionbar_green">#689F39</color>
+    <color name="statusbar_gray">#384850</color>
+    <color name="actionbar_gray">#455A65</color>
     <color name="head_background">#EEEEEE</color>
+    <color name="colorGreen">#10B5CF</color>
+    <!--半透明 -->
+    <color name="half_transparent">#7f000000</color>
 </resources>
