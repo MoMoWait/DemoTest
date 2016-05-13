@@ -12,11 +12,11 @@ import momo.fjnu.edu.cn.demotest.R;
  */
 public class AppBaseActivity extends BaseActivity{
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-
 
 
     @Override

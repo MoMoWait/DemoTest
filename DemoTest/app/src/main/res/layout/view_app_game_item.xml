@@ -1,24 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- 应用有些列表item的布局  -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:background="@android:color/white"
+                android:orientation="vertical"
+                android:padding="10dp">
+
     <ImageView
         android:id="@+id/img_app_game"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:scaleType="fitXY"
-        android:layout_margin="10dp"
         android:src="@mipmap/ex_item"/>
 
     <TextView
         android:id="@+id/text_app_title"
-        android:layout_width="100dp"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:gravity="center_horizontal"
+        android:layout_below="@+id/img_app_game"
+        android:layout_marginTop="10dp"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:maxLines="2"
+        android:text="Android开发"
         android:textColor="@android:color/black"
-        android:text="应用"/>
+        android:textSize="18sp"/>
 
-</LinearLayout>
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="40dp"
+        android:layout_alignRight="@+id/img_app_game"
+        android:layout_alignTop="@+id/text_app_title"
+        android:src="@mipmap/points"/>
+
+    <TextView
+        android:id="@+id/text_star"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_app_title"
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical"
+        android:text="4.3*"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/img_app_game"
+        android:layout_alignTop="@+id/text_star"
+        android:gravity="center_vertical"
+        android:text="FREE"
+        android:textColor="@color/statusbar_green"
+        android:textSize="18sp"/>
+
+</RelativeLayout>

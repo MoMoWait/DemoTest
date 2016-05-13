@@ -7,10 +7,10 @@ import android.support.v4.app.FragmentActivity;
 import momo.fjnu.edu.cn.demotest.R;
 
 /**
- * 引用详细信息基类
- * Created by GaoFei on 2016/5/10.
+ * 基本的应用游戏详情页
+ * Created by GaoFei on 2016/5/11.
  */
-public abstract class BaseGameInfoActivity extends FragmentActivity {
+public abstract class BaseGameInfoActivity extends FragmentActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

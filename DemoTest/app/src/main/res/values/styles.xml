@@ -17,7 +17,7 @@
 
 
 
-    <style name="OverLayAppTheme" parent="@android:style/Theme.Holo">
+    <style name="OverLayAppTheme" parent="@android:style/Theme.Holo.Light.DarkActionBar">
         <item name="android:windowActionBarOverlay">true</item>
         <item name="android:actionBarStyle">@style/OverLayAppTheme.ActionBar</item>
         <item name="android:windowContentOverlay">@null</item>

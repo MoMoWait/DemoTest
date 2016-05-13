@@ -4,13 +4,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.util.TypedValue;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.widget.ScrollView;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
@@ -35,17 +41,26 @@ import momo.fjnu.edu.cn.demotest.pojo.AppGameInfo;
 public class AppGameFragment extends BaseFragment{
 
     private static final String TAG = "AppGameFragment";
-
     @ViewInject(R.id.recyle_select)
     private RecyclerView mRecyleSelect;
-
     @ViewInject(R.id.recyle_social)
     private RecyclerView mRecyleSocial;
-
+    @ViewInject(R.id.recyle_communication)
+    private RecyclerView mRecyleCommunication;
+    @ViewInject(R.id.recyle_suggestions)
+    private RecyclerView mRecyleSuggestions;
+    @ViewInject(R.id.recyle_photography)
+    private RecyclerView mRecylePhotoGraphy;
+    @ViewInject(R.id.scroll_app_game)
+    private ScrollView mScrollAppGame;
     private AppGameAdapter mSelectAppGameAdapter;
-
     private AppGameAdapter mSocialAppGameAdapter;
-
+    private AppGameAdapter mSuggestionsAppGameAdapter;
+    private AppGameAdapter mCommunicationAppGameAdapter;
+    private AppGameAdapter mPhotoGraphyAppGameAdapter;
+    private ActionBar mMainActionBar;
+    /**操作栏的高度*/
+    private int mActionBarHeight;
     /**点击列表某一项的监听事件*/
     public interface AppGameItemClickListener{
         void onClick(View view, int position);
@@ -61,6 +76,10 @@ public class AppGameFragment extends BaseFragment{
 
     @Override
     public void initView() {
+        mMainActionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
+        if(null != mMainActionBar)
+            mMainActionBar.setShowHideAnimationEnabled(true);
+
         List<AppGameInfo> appGameInfos = new ArrayList<>();
         Random random = new Random();
         for(String iconUrl : AppGameInfos.icons){
@@ -79,12 +98,32 @@ public class AppGameFragment extends BaseFragment{
         mRecyleSocial.setLayoutManager(socialLayoutManager);
         mSocialAppGameAdapter = new AppGameAdapter(appGameInfos);
         mRecyleSocial.setAdapter(mSocialAppGameAdapter);
+
+        LinearLayoutManager suggestionsLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        mRecyleSuggestions.setLayoutManager(suggestionsLayoutManager);
+        mSuggestionsAppGameAdapter = new AppGameAdapter(appGameInfos);
+        mRecyleSuggestions.setAdapter(mSuggestionsAppGameAdapter);
+
+        LinearLayoutManager communicationLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        mRecyleCommunication.setLayoutManager(communicationLayoutManager);
+        mCommunicationAppGameAdapter = new AppGameAdapter(appGameInfos);
+        mRecyleCommunication.setAdapter(mCommunicationAppGameAdapter);
+
+        LinearLayoutManager photographyLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        mRecylePhotoGraphy.setLayoutManager(photographyLayoutManager);
+        mPhotoGraphyAppGameAdapter = new AppGameAdapter(appGameInfos);
+        mRecylePhotoGraphy.setAdapter(mPhotoGraphyAppGameAdapter);
     }
 
     @Override
     public void initData() {
-
+        TypedValue tv = new TypedValue();
+        if (getActivity().getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true))
+        {
+            mActionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data,getResources().getDisplayMetrics());
+        }
     }
+
 
     @Override
     public void initEvent() {
@@ -115,6 +154,20 @@ public class AppGameFragment extends BaseFragment{
 
             }
         }));
+
+        mScrollAppGame.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+            @Override
+            public void onScrollChanged() {
+                Log.i(TAG, "ScrollHeight = " + mScrollAppGame.getScrollY());
+                if(null != mMainActionBar){
+                    if(mMainActionBar.isShowing() && mScrollAppGame.getScrollY() > mActionBarHeight)
+                        mMainActionBar.hide();
+                    else if(!mMainActionBar.isShowing() && mScrollAppGame.getScrollY() < mActionBarHeight)
+                        mMainActionBar.show();
+                }
+            }
+        });
+
     }
 
     public class RecylerTouchListener implements RecyclerView.OnItemTouchListener{

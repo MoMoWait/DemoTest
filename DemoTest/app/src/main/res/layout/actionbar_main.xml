@@ -14,7 +14,11 @@
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:textColor="@android:color/black"
-        android:focusable="false"
+        android:enabled="false"
+        android:gravity="center_vertical"
+        android:hint="Google Play"
+        android:textColorHint="#9c9c9c"
+        android:paddingLeft="10dp"
         android:layout_weight="1"/>
     <ImageView
         android:layout_width="30dp"
