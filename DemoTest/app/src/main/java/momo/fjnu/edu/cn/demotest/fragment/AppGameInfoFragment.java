@@ -8,7 +8,9 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.androidquery.AQuery;
@@ -41,6 +43,9 @@ public class AppGameInfoFragment extends BaseFragment{
     @ViewInject(R.id.text_app_game_subTitle)
     private TextView mTextAppGameSubTitle;
 
+    @ViewInject(R.id.scroll_app_game_info)
+    private ScrollView mScrollAppGameInfo;
+
 
     @Nullable
     @Override
@@ -53,6 +58,7 @@ public class AppGameInfoFragment extends BaseFragment{
     public void initView() {
         mAppGameInfoActionBar = getActivity().getActionBar();
         if(null != mAppGameInfoActionBar){
+            mAppGameInfoActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
             mAppGameInfoActionBar.setDisplayShowCustomEnabled(true);
             //设置自定义的ActionBar
             mAppGameInfoActionBar.setCustomView(R.layout.actionbar_app_game_info);
@@ -69,11 +75,29 @@ public class AppGameInfoFragment extends BaseFragment{
 
     @Override
     public void initData() {
-
     }
 
     @Override
     public void initEvent() {
+        if(null != mAppGameInfoActionBar)
+            mAppGameInfoActionBar.getCustomView().findViewById(R.id.img_back).setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    getActivity().finish();
+                    getActivity().overridePendingTransition(R.anim.activity_exit_left, R.anim.activity_exit_right);
+                }
+            });
 
+        mScrollAppGameInfo.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+            @Override
+            public void onScrollChanged() {
+                if(null != mAppGameInfoActionBar){
+                    if(mAppGameInfoActionBar.isShowing() && mScrollAppGameInfo.getScrollY() > SizeUtils.dp2px(getContext(), 150))
+                        mAppGameInfoActionBar.hide();
+                    else if(!mAppGameInfoActionBar.isShowing() && mScrollAppGameInfo.getScrollY() < SizeUtils.dp2px(getContext(), 150))
+                        mAppGameInfoActionBar.show();
+                }
+            }
+        });
     }
 }

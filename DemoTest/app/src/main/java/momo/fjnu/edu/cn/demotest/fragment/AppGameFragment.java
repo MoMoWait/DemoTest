@@ -4,11 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -47,15 +47,12 @@ public class AppGameFragment extends BaseFragment{
     private RecyclerView mRecyleSocial;
     @ViewInject(R.id.recyle_communication)
     private RecyclerView mRecyleCommunication;
-    @ViewInject(R.id.recyle_suggestions)
-    private RecyclerView mRecyleSuggestions;
     @ViewInject(R.id.recyle_photography)
     private RecyclerView mRecylePhotoGraphy;
     @ViewInject(R.id.scroll_app_game)
     private ScrollView mScrollAppGame;
     private AppGameAdapter mSelectAppGameAdapter;
     private AppGameAdapter mSocialAppGameAdapter;
-    private AppGameAdapter mSuggestionsAppGameAdapter;
     private AppGameAdapter mCommunicationAppGameAdapter;
     private AppGameAdapter mPhotoGraphyAppGameAdapter;
     private ActionBar mMainActionBar;
@@ -91,27 +88,22 @@ public class AppGameFragment extends BaseFragment{
         }
         LinearLayoutManager selectLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         mRecyleSelect.setLayoutManager(selectLayoutManager);
-        mSelectAppGameAdapter = new AppGameAdapter(appGameInfos);
+        mSelectAppGameAdapter = new AppGameAdapter(appGameInfos.subList(0, 10));
         mRecyleSelect.setAdapter(mSelectAppGameAdapter);
 
         LinearLayoutManager socialLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         mRecyleSocial.setLayoutManager(socialLayoutManager);
-        mSocialAppGameAdapter = new AppGameAdapter(appGameInfos);
+        mSocialAppGameAdapter = new AppGameAdapter(appGameInfos.subList(10, 20));
         mRecyleSocial.setAdapter(mSocialAppGameAdapter);
-
-        LinearLayoutManager suggestionsLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        mRecyleSuggestions.setLayoutManager(suggestionsLayoutManager);
-        mSuggestionsAppGameAdapter = new AppGameAdapter(appGameInfos);
-        mRecyleSuggestions.setAdapter(mSuggestionsAppGameAdapter);
 
         LinearLayoutManager communicationLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         mRecyleCommunication.setLayoutManager(communicationLayoutManager);
-        mCommunicationAppGameAdapter = new AppGameAdapter(appGameInfos);
+        mCommunicationAppGameAdapter = new AppGameAdapter(appGameInfos.subList(20, 30));
         mRecyleCommunication.setAdapter(mCommunicationAppGameAdapter);
 
         LinearLayoutManager photographyLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         mRecylePhotoGraphy.setLayoutManager(photographyLayoutManager);
-        mPhotoGraphyAppGameAdapter = new AppGameAdapter(appGameInfos);
+        mPhotoGraphyAppGameAdapter = new AppGameAdapter(appGameInfos.subList(30, 40));
         mRecylePhotoGraphy.setAdapter(mPhotoGraphyAppGameAdapter);
     }
 
@@ -132,7 +124,11 @@ public class AppGameFragment extends BaseFragment{
             public void onClick(View view, int position) {
                 Intent intent = new Intent(getContext(), AppGameInfoActivity.class);
                 intent.putExtra("appGameInfo", mSelectAppGameAdapter.getAppGameInfo(position));
-                startActivity(intent);
+                ActivityOptionsCompat options = ActivityOptionsCompat.
+                        makeSceneTransitionAnimation(getActivity(), view.findViewById(R.id.img_app_game), "move");
+                //Shared Element Transition
+                startActivity(intent, options.toBundle());
+                getActivity().overridePendingTransition(R.anim.activity_enter_right, R.anim.activity_enter_left);
             }
 
             @Override
@@ -146,7 +142,11 @@ public class AppGameFragment extends BaseFragment{
             public void onClick(View view, int position) {
                 Intent intent = new Intent(getContext(), AppGameInfoActivity.class);
                 intent.putExtra("appGameInfo", mSocialAppGameAdapter.getAppGameInfo(position));
-                startActivity(intent);
+                ActivityOptionsCompat options = ActivityOptionsCompat.
+                        makeSceneTransitionAnimation(getActivity(), view.findViewById(R.id.img_app_game), "move");
+                //Shared Element Transition
+                startActivity(intent, options.toBundle());
+                getActivity().overridePendingTransition(R.anim.activity_enter_right, R.anim.activity_enter_left);
             }
 
             @Override
@@ -155,10 +155,47 @@ public class AppGameFragment extends BaseFragment{
             }
         }));
 
+        mRecyleCommunication.addOnItemTouchListener(new RecylerTouchListener(getContext(), mRecyleCommunication, new AppGameItemClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                Intent intent = new Intent(getContext(), AppGameInfoActivity.class);
+                intent.putExtra("appGameInfo", mCommunicationAppGameAdapter.getAppGameInfo(position));
+                ActivityOptionsCompat options = ActivityOptionsCompat.
+                        makeSceneTransitionAnimation(getActivity(), view.findViewById(R.id.img_app_game), "move");
+                //Shared Element Transition
+                startActivity(intent, options.toBundle());
+                getActivity().overridePendingTransition(R.anim.activity_enter_right, R.anim.activity_enter_left);
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
+
+        mRecylePhotoGraphy.addOnItemTouchListener(new RecylerTouchListener(getContext(), mRecylePhotoGraphy, new AppGameItemClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                Intent intent = new Intent(getContext(), AppGameInfoActivity.class);
+                intent.putExtra("appGameInfo", mPhotoGraphyAppGameAdapter.getAppGameInfo(position));
+                ActivityOptionsCompat options = ActivityOptionsCompat.
+                        makeSceneTransitionAnimation(getActivity(), view.findViewById(R.id.img_app_game), "move");
+                //Shared Element Transition
+                startActivity(intent, options.toBundle());
+                getActivity().overridePendingTransition(R.anim.activity_enter_right, R.anim.activity_enter_left);
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
+
+        //滑动监听事件
         mScrollAppGame.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
             @Override
             public void onScrollChanged() {
-                Log.i(TAG, "ScrollHeight = " + mScrollAppGame.getScrollY());
+               // Log.i(TAG, "ScrollHeight = " + mScrollAppGame.getScrollY());
                 if(null != mMainActionBar){
                     if(mMainActionBar.isShowing() && mScrollAppGame.getScrollY() > mActionBarHeight)
                         mMainActionBar.hide();
